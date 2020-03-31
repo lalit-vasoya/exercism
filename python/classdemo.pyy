@@ -1,0 +1,19 @@
+class Abc:
+	
+	def __init__(self):
+		self.name="LAlit"
+
+	def abc(c):
+		print(c.name,c.fname)
+
+	def display(self):
+		print(self.name)
+		print(self.fname)
+	def getname(self):
+		self.fname="vasoya"
+
+a=Abc()
+a.getname()
+a.display()
+print("Print Data using class methodabc")
+a.abc()
