@@ -2,8 +2,7 @@ class Allergies:
 
     def __init__(self, score):
         self.no=score
-        self.score=score
-        self.l=[]
+        self.l=set()
         self.allergies={
                         'eggs':1,
                         'peanuts':2,
@@ -16,25 +15,14 @@ class Allergies:
                 }
 
     def allergic_to(self, item=None):
-        temp=''
-        
         for key,value in sorted(self.allergies.items(),reverse=True,key=lambda p:p[1]):
-            #print(self.no,value) #(cats,128)
-            if self.no>=value:  #(112 > 128)
-                print(key,value) 
+            while self.no>=value:   
                 self.no -= value
-                temp     = key
-                #print(key)
-                self.l.append(temp)
+                self.l.add(key)
 
-        if self.score > 128:
-            return temp!=item
-
-        return temp==item
+        return item in self.l
 
     @property
     def lst(self):
         self.allergic_to()
-        return self.l
-
-print(Allergies(112).allergic_to("chocolate"))
+        return list(self.l)

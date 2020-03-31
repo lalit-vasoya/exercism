@@ -1,30 +1,19 @@
-from string import digits
+import re
+from itertools import chain
 class Luhn:
     def __init__(self, card_num):
-        self.card_num=card_num.replace(" ","")
-      
-     
-        self.new=""
-    
+        self.luhn = True
+        card_num = card_num.replace(" ","")
+        if len(card_num) < 2 or any([not item.isdigit() for item in card_num]):
+            self.luhn = False
+
+        self.card_num = list(map(int,re.findall(r'\d+',card_num)[0]))
+
     def valid(self):
-        print(self.card_num)
-        for i in self.card_num:
-            if i not in digits:
-                return False
-        
-        a=str(int(self.card_num))
-
-        for i in range(len(a)):
-            if i%2==0:
-                print(a[i])
-                self.new+=str(int(a[i])*2) if int(a[i])*2<=9 else str(int(a[i])*2-9)
-        #         self.new+=str([i]*2 if (a[i]*2)<9 else a[i]*2-9
-            else:
-                self.new+=str(a[i])
-        #         self.new+=a[i]
-        print(self.new)
-        print(sum(map(int,self.new))%10==0)
-        print("sum:",sum(map(int,self.new)))
-        return sum(map(int,self.new))%10==0 
-
-print(Luhn("590 231").valid())
+        self.firstdigit  = self.card_num[len(self.card_num)-1 ::-2]
+        self.seconddigit = self.card_num[len(self.card_num)-2::-2]
+        self.seconddigit = list(map(lambda x:x*2-9 if x*2>9 else x*2 ,self.seconddigit))
+        total = sum(chain(self.firstdigit,self.seconddigit))
+        if not self.luhn:
+            return self.luhn
+        return total%10==0
